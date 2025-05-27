@@ -12,12 +12,15 @@ export function useMonthMintedDates(currentMonth: Date) {
   const dateIds = days.map(date => parseInt(format(date, 'yyyyMMdd')));
 
   const { data: mintedResults, refetch } = useReadContracts({
-    contracts: dateIds.map(dateId => ({
-      address: DATE_NFT_ADDRESS as `0x${string}`,
-      abi: DATE_NFT_ABI,
-      functionName: 'isDateMintable',
-      args: [BigInt(dateId)],
-    })),
+    contracts: dateIds.map(dateId => {
+      console.log('Checking date:', dateId, 'as BigInt:', BigInt(dateId));
+      return {
+        address: DATE_NFT_ADDRESS as `0x${string}`,
+        abi: DATE_NFT_ABI,
+        functionName: 'isDateMintable',
+        args: [BigInt(dateId)],
+      };
+    }),
   });
 
   // Memoize the minted dates calculation

@@ -9,7 +9,6 @@ import {
   setMonth,
   setYear,
 } from 'date-fns';
-import { useIsDateMinted } from '@/hooks/useIsDateMinted';
 import { useMonthMintedDates } from '@/hooks/useMonthMintedDates';
 
 interface CalendarProps {
@@ -27,7 +26,6 @@ const YEARS = Array.from({ length: 2025 - 1900 + 1 }, (_, i) => 1900 + i);
 
 export default function Calendar({ selectedDate, onDateSelect }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date(2025, 0, 1));
-  const selectedDateMinted = useIsDateMinted(selectedDate);
   const mintedDates = useMonthMintedDates(currentMonth);
 
   const days = eachDayOfInterval({

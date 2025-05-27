@@ -27,8 +27,10 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
     if (!selectedDate) {
       return { dateId: 0, formattedDate: '' };
     }
+    const id = parseInt(format(selectedDate, 'yyyyMMdd'));
+    console.log('Selected date:', selectedDate, 'as ID:', id, 'as BigInt:', BigInt(id));
     return {
-      dateId: parseInt(format(selectedDate, 'yyyyMMdd')),
+      dateId: id,
       formattedDate: format(selectedDate, 'EEEE, MMMM d, yyyy')
     };
   }, [selectedDate]);
@@ -106,6 +108,10 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
         id: toastId,
       });
 
+      if (!publicClient) {
+        throw new Error('Public client not available');
+      }
+
       // Wait for the transaction to be mined
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
@@ -129,11 +135,11 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
           description: 'The transaction was reverted by the network',
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error minting:', error);
       toast.error('Failed to mint', {
         id: toastId,
-        description: error?.message || 'Something went wrong',
+        description: error instanceof Error ? error.message : 'Something went wrong',
       });
     } finally {
       setIsLoading(false);
