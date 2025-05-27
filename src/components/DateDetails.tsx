@@ -70,7 +70,7 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
   });
 
   // Get OpenSea URL from environment variable
-  const openSeaBaseUrl = process.env.NEXT_PUBLIC_OPENSEA_URL || 'https://testnets.opensea.io/assets/base-sepolia';
+  const openSeaBaseUrl = process.env.NEXT_PUBLIC_OPENSEA_URL || 'https://opensea.io/assets/base';
   const openSeaUrl = `${openSeaBaseUrl}/${DATE_NFT_ADDRESS}/${dateId}`;
 
   // Debug logging
