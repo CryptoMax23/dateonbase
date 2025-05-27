@@ -37,15 +37,15 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
 
   // Contract reads with error logging
   const { 
-    data: isMintable, 
-    isError: isMintableError,
-    error: mintableError,
-    isLoading: isMintableLoading,
-    refetch: refetchMintable
+    data: isMinted, 
+    isError: isMintedError,
+    error: mintedError,
+    isLoading: isMintedLoading,
+    refetch: refetchMinted
   } = useReadContract({
     address: DATE_NFT_ADDRESS,
     abi: DATE_NFT_ABI,
-    functionName: 'isDateMintable',
+    functionName: 'datesMinted',
     args: [BigInt(dateId)],
     query: {
       enabled: dateId !== 0,
@@ -64,7 +64,7 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
     functionName: 'ownerOf',
     args: [BigInt(dateId)],
     query: {
-      enabled: dateId !== 0 && isMintable === false,
+      enabled: dateId !== 0 && isMinted === true,
       retry: 2,
     }
   });
@@ -75,13 +75,13 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
 
   // Debug logging
   useEffect(() => {
-    if (mintableError) {
-      console.error('Error checking if date is mintable:', mintableError);
+    if (mintedError) {
+      console.error('Error checking if date is minted:', mintedError);
     }
     if (ownerFetchError) {
       console.error('Error fetching owner:', ownerFetchError);
     }
-  }, [mintableError, ownerFetchError]);
+  }, [mintedError, ownerFetchError]);
 
   const handleMint = async () => {
     if (!dateId) return;
@@ -126,7 +126,7 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
 
         // Refetch the data
         await Promise.all([
-          refetchMintable(),
+          refetchMinted(),
           refetchOwner()
         ]);
       } else {
@@ -147,7 +147,6 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
   };
 
   const isOwner = owner === address;
-  const isMinted = isMintable === false;
 
   // Early return if no date selected
   if (!selectedDate) {
@@ -168,7 +167,7 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
 
       <div className="mb-4">
         <span className="font-semibold text-gray-800">Status: </span>
-        {isMintableLoading ? (
+        {isMintedLoading ? (
           <span className="text-gray-500">Checking status...</span>
         ) : (
           <span className={`inline-block px-2 py-1 rounded ${
@@ -241,11 +240,11 @@ export default function DateDetails({ selectedDate }: DateDetailsProps) {
         </>
       )}
 
-      {(isMintableError || ownerError) && (
+      {(isMintedError || ownerError) && (
         <div className="mt-2 text-red-600">
           <p>Error fetching date information. Please try again.</p>
           <p className="text-sm mt-1">
-            {mintableError?.message || ownerFetchError?.message}
+            {mintedError?.message || ownerFetchError?.message}
           </p>
         </div>
       )}
