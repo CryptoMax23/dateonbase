@@ -22,7 +22,7 @@ export const DATE_NFT_ABI = parseAbi([
   'function mintStartDate() view returns (uint64)',
   'function mintEndDate() view returns (uint64)',
   'function mintingEnabled() view returns (bool)',
-  'function datesMinted(uint256 dateId) view returns (bool)',
+  'function datesMinted(uint256) view returns (bool)',
   'function isDateMintable(uint256 dateId) view returns (bool)',
   'function mintPrice() view returns (uint256)',
   'function contractURI() view returns (string)',
