@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-assets": "ts-node scripts/generate-assets.ts"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.2.5",
@@ -33,7 +34,9 @@
     "eslint-config-next": "15.3.2",
     "hardhat": "^2.24.1",
     "pino-pretty": "^13.0.0",
+    "sharp": "^0.34.2",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
